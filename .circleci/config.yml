@@ -1,6 +1,7 @@
 version: 2
 jobs:
   build:
+   working_directory: ~/AutoIntern-Django
    docker:
     - image: circleci/python:3.6.2-stretch-browsers
    steps:
@@ -19,3 +20,7 @@ jobs:
         key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
         paths:
           - "venv"
+
+    - run:
+        name: run the tests
+        command: python manage.py test
