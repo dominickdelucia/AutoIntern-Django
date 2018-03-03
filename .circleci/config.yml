@@ -26,7 +26,7 @@ jobs:
         name: Set Up GOOGLE_CLOUD_DEFAULT_CREDENTIALS
         command: |
           echo $CLIENT_SECRET | base64 -di > /tmp/client_secret.json
-          export GOOGLE_APPLICATION_CREDENTIALS="/tmp/client_secret.json"
+
 
     # Saves dependencies that are downloaded so it builds faster
     - save_cache:
@@ -37,6 +37,7 @@ jobs:
     - run:
         name: run the tests
         command: |
+          export GOOGLE_APPLICATION_CREDENTIALS="/tmp/client_secret.json"
           . venv/bin/activate
           ./cloud_sql_proxy -instances="autointern-196523:us-east1:terndb1"=tcp:5432
           python manage.py test
