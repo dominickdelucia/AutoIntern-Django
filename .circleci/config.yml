@@ -44,10 +44,15 @@ jobs:
           python manage.py test
 
     - run:
-        name: download and setup the appengine sdk
+        name: download and setup the appengine/cloud sdk
         command: |
           curl -o $HOME/google_appengine_1.9.30.zip https://storage.googleapis.com/appengine-sdks/featured/google_appengine_1.9.30.zip
           unzip -q -d $HOME $HOME/google_appengine_1.9.30.zip
+          cd $HOME
+          wget  https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-191.0.0-linux-x86_64.tar.gz
+          tar -xzf ./google-cloud-sdk-191.0.0-linux-x86_64.tar.gz
+
+
 
     - run:
         name: Deploy the app
@@ -56,6 +61,7 @@ jobs:
            # Need to make these environment variables
             export GOOGLE_APPLICATION_CREDENTIALS="/tmp/client_secret.json"
             export PYTHONPATH="${HOME}/appengine"
+            export PYTHONPATH=${PYTHONPATH}:${HOME}/google-cloud-sdk
             . venv/bin/activate
             rm -rf ./static
             python manage.py collectstatic
