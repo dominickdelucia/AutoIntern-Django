@@ -30,8 +30,9 @@ jobs:
 
     - run:
         name: Download App Engine SDK
-        - curl -o $HOME/google_appengine_1.9.30.zip https://storage.googleapis.com/appengine-sdks/featured/google_appengine_1.9.30.zip
-        - unzip -q -d $HOME $HOME/google_appengine_1.9.30.zip
+        command: |
+          curl -o $HOME/google_appengine_1.9.30.zip https://storage.googleapis.com/appengine-sdks/featured/google_appengine_1.9.30.zip
+          unzip -q -d $HOME $HOME/google_appengine_1.9.30.zip
 
     # Saves dependencies that are downloaded so it builds faster
     - save_cache:
