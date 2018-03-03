@@ -5,8 +5,8 @@ jobs:
 
    docker:
     - image: circleci/python:3.6.2-stretch-browsers
-    environment:
-      PYTHONPATH: ${PYTHONPATH}:${HOME}/google_appengine
+       environment:
+         PYTHONPATH: ${PYTHONPATH}:${HOME}/google_appengine
     #  environment:
     #    DATABASE_URL: postgresql://root@localhost/postgres?sslmode=disable
     # - image: circleci/postgres:9.6.2
