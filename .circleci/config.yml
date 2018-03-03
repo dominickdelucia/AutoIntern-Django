@@ -65,5 +65,6 @@ jobs:
             . venv/bin/activate
             rm -rf ./static
             python manage.py collectstatic
+            ${HOME}/google-cloud-sdk/bin/gcloud auth activate-service-account --key-file "/tmp/client_secret.json"
             ${HOME}/google-cloud-sdk/bin/gsutil rsync -R static/ gs://autointern/static
-            gcloud app deploy
+            ${HOME}/google-cloud-sdk/bin/gcloud app deploy
