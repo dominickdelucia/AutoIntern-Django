@@ -41,3 +41,13 @@ jobs:
           . venv/bin/activate
           ./cloud_sql_proxy -instances="autointern-196523:us-east1:terndb1"=tcp:5432 &
           python manage.py test
+
+    - run:
+        name: Deploy the app
+        command: |
+          # Assume that the buckets for storage are already made
+          export GOOGLE_APPLICATION_CREDENTIALS="/tmp/client_secret.json"
+          . venv/bin/activate
+          python manage.py collectstatic
+          gsutil rsync -R static/ gs://autointern/static
+          gcloud app deploy
