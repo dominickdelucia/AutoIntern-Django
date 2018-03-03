@@ -28,11 +28,6 @@ jobs:
         command: |
           echo $CLIENT_SECRET | base64 -di > /tmp/client_secret.json
 
-    - run:
-        name: Download App Engine SDK
-        command: |
-          curl -o $HOME/google_appengine_1.9.30.zip https://storage.googleapis.com/appengine-sdks/featured/google_appengine_1.9.30.zip
-          unzip -q -d $HOME $HOME/google_appengine_1.9.30.zip
 
     # Saves dependencies that are downloaded so it builds faster
     - save_cache:
@@ -40,23 +35,27 @@ jobs:
         paths:
           - "venv"
 
-    test:
-      - run:
-          name: run the tests
-          command: |
-            export GOOGLE_APPLICATION_CREDENTIALS="/tmp/client_secret.json"
-            . venv/bin/activate
-            ./cloud_sql_proxy -instances="autointern-196523:us-east1:terndb1"=tcp:5432 &
-            python manage.py test
+    - run:
+       name: run the tests
+       command: |
+          export GOOGLE_APPLICATION_CREDENTIALS="/tmp/client_secret.json"
+          . venv/bin/activate
+          ./cloud_sql_proxy -instances="autointern-196523:us-east1:terndb1"=tcp:5432 &
+          python manage.py test
 
-    deploy:
-      - run:
-          name: Deploy the app
-          command: |
-            # Assume that the buckets for storage are already made
-            # TODO these next two lines need to be made environment vars
+    - run:
+        name: download and setup the appengine sdk
+        command: |
+          curl -o $HOME/google_appengine_1.9.30.zip https://storage.googleapis.com/appengine-sdks/featured/google_appengine_1.9.30.zip
+          unzip -q -d $HOME $HOME/google_appengine_1.9.30.zip
+
+    - run:
+        name: Deploy the app
+        command: |
+           # Assume that the buckets for storage are already made
+           # Need to make these environment variables
             export GOOGLE_APPLICATION_CREDENTIALS="/tmp/client_secret.json"
-            export PYTHONPATH=${PYTHONPATH}:${HOME}/google_appengine
+            export PYTHONPATH="${HOME}/appengine"
             . venv/bin/activate
             rm -rf ./static
             python manage.py collectstatic
