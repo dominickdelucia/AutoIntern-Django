@@ -1,49 +1,8 @@
-# This is my first attempt at setting up the
-# circle ci environment
-
-machine:
-  environment:
-    # Add app engine sdk to pythonpath
-    PYTHONPATH: ${PYTHONPATH}:${HOME}/google_appengine
-    # Be sure to set environment variable
-    GCLOUD_PROJECT: "$GCLOUD_PROJECT_ID"
-
-dependencies:
-  pre:
-    # Download App Engine SDK
-    # This is not necessary to deploy, its only necessary  to run local tests importing the App Engine SDK
-    - curl -o $HOME/google_appengine_1.9.30.zip https://storage.googleapis.com/appengine-sdks/featured/google_appengine_1.9.30.zip
-    - unzip -q -d $HOME $HOME/google_appengine_1.9.30.zip
-    # Retrieve our secrets from the CircleCI environment
-    - echo $CLIENT_SECRET
-    - echo $CLIENT_SECRET | base64 --decode --ignore-garbage
-    - echo $CLIENT_SECRET | base64 --decode --ignore-garbage > ${HOME}/client-secret.json
-    # vendor our dependencies
-    - mkdir -p lib
-    - pip install -r requirements.txt -t lib
-    # Make sure gcloud is up to date
-    - gcloud --quiet components update app
-    # authenticate gcloud
-    - gcloud auth activate-service-account --key-file ${HOME}/client-secret.json
-    # Replace <your-project-id>
-    - gcloud config set project $GCLOUD_PROJECT_ID
-
-test:
-  override:
-    # run the local tests
-    - python ./manage.py test
-
-deployment:
-  staging:
-    branch: master
-    commands:
-    # You might need to allocate a bucket here for storage.
-    # gsutil mb gs://<your-gcs-bucket>
-    # gsutil defacl set public-read gs://<your-gcs-bucket>
-
-    # Assuming that is already done
-    # Upload the static content to cloud storage
-    - python manage.py collectstatic
-    - gsutil rsync -R static/ gs://autointern/static
-
-    - gcloud app deploy
+version: 2
+jobs:
+  build:
+   docker:
+    - image: circleci/python:3.6.2-stretch-browsers
+   steps:
+    - checkout
+    - run: pip install -r requirements.txt
