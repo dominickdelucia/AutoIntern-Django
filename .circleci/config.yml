@@ -39,5 +39,5 @@ jobs:
         command: |
           export GOOGLE_APPLICATION_CREDENTIALS="/tmp/client_secret.json"
           . venv/bin/activate
-          ./cloud_sql_proxy -instances="autointern-196523:us-east1:terndb1"=tcp:5432
+          ./cloud_sql_proxy -instances="autointern-196523:us-east1:terndb1"=tcp:5432 &
           python manage.py test
