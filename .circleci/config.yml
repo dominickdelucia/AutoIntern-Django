@@ -65,5 +65,5 @@ jobs:
             . venv/bin/activate
             rm -rf ./static
             python manage.py collectstatic
-            gsutil rsync -R static/ gs://autointern/static
+            ${HOME}/google-cloud-sdk/bin/gsutil rsync -R static/ gs://autointern/static
             gcloud app deploy
