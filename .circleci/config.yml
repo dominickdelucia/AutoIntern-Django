@@ -66,5 +66,7 @@ jobs:
             rm -rf ./static
             python manage.py collectstatic
             ${HOME}/google-cloud-sdk/bin/gcloud auth activate-service-account --key-file "/tmp/client_secret.json"
+            ${HOME}/google-cloud-sdk/bin/gcloud --quiet components update app
             ${HOME}/google-cloud-sdk/bin/gsutil rsync -R static/ gs://autointern/static
+            ${HOME}/google-cloud-sdk/bin/gcloud config set project $GCLOUD_PROJECT_ID
             ${HOME}/google-cloud-sdk/bin/gcloud app deploy
