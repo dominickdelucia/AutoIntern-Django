@@ -48,6 +48,7 @@ jobs:
           # Assume that the buckets for storage are already made
           export GOOGLE_APPLICATION_CREDENTIALS="/tmp/client_secret.json"
           . venv/bin/activate
+          rm -rf ./static
           python manage.py collectstatic
           gsutil rsync -R static/ gs://autointern/static
           gcloud app deploy
