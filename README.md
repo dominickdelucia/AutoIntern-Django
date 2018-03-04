@@ -17,7 +17,7 @@ Here we are cloning the repo to your file system
 Note: ALL WORK should be done on your own github branch. When you want to make a change to the repo make sure you are doing it on your own branch and then creating a pull request.
 1. Create a branch and switch to it using "git checkout -b branch_name". Either name your branch after yourself (i.e. nicks_branch) or after a feature you are working on.
 2. Edit code and "git add" as normal!
-3. Commit the code using "git commit -m "<Message>"". Note: Make sure your commit messages are informational (*cough cough* Anthony). This saves time in the future if we have to revert your crappy changes.
+3. Commit the code using "git commit -m " < Message > "". Note: Make sure your commit messages are informational (*cough cough* Anthony). This saves time in the future if we have to revert your crappy changes.
 4. When you are ready to push changes use "git push -u origin branch_name". Note: You will only have to do this the first time per branch you make, afterwords you can use "git push" as usual. If you do not do this the first time, however, it will simply push your changes to master and we do not want this.
 5. Navigate to https://github.com/asn10038/AutoIntern-Django and go to "Pull Requests" and create one from your branch to master! Make sure to assign people to the pull request and DO NOT ACCEPT YOUR OWN PR.
 
