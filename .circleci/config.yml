@@ -25,6 +25,11 @@ jobs:
           paths:
             - ./venv
           key: v1-dependencies-{{ checksum "requirements.txt" }}
+      
+      - run:
+          name: Set Up GOOGLE_CLOUD_DEFAULT_CREDENTIALS
+          command: |
+            echo $CLIENT_SECRET | base64 -di > /tmp/client_secret.json
 
       - run:
           name: run tests
