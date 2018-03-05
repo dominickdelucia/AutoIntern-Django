@@ -94,6 +94,10 @@ workflows:
           requires:
             - holdDeployDev
       #- deployUAT:
+      #    filters:
+      #      branches:
+      #        only:
+      #          - master
       #    requires:
       #      - build-test
       - holdDeployProd:
