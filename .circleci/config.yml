@@ -35,6 +35,10 @@ jobs:
       #    command: |
       #      echo $DEV_SECRET | base64 -di > /tmp/dev_secret.json
 
+      # TODO: Look into restore cache
+      - restore_cache:
+          key: v1-dependencies-{{ checksum "requirements.txt" }}
+
       - run:
           name: Install Python deps in a venv
           command: |
@@ -47,6 +51,7 @@ jobs:
           command: |
             export GOOGLE_APPLICATION_CREDENTIALS="/tmp/dev_secret.json"
             . venv/bin/activate
+            echo "$DEV_database"
             ./cloud_sql_proxy_linux -instances="$DEV_database"=tcp:5432 &
             python manage.py test
 
