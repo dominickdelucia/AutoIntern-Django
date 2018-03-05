@@ -17,6 +17,16 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "mysite.settings")
+SETTINGS = "mysite.settings.base"
+try:
+    if os.environ["ENVIRONMENT"] == 'UAT':
+        SETTINGS = "mysite.settings.uat"
+    if os.environ["ENVIRONMENT"] == 'PROD':
+        SETTINGS = "mysite.settings.prod"
+except KeyError as ke:
+    #Assume this is ok and using the default settings
+    pass
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", SETTINGS)
 
+# os.environ.setdefault("DJANGO_SETTINGS_MODULE", settings_options[ENVIRONMENT])
 application = get_wsgi_application()
