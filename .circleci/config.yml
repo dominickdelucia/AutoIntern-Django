@@ -107,13 +107,6 @@ workflows:
   build-test-optionally-deployDev-deployUAT-approval-deployProd:
     jobs:
       - build-test
-      - holdDeployDev:
-          type: approval
-          requires:
-            - build-test
-      - deployDev:
-          requires:
-            - holdDeployDev
       - deployUAT:
           filters:
             branches:
@@ -121,14 +114,21 @@ workflows:
                 - master
           requires:
             - build-test
+      - holdDeployDev:
+          type: approval
+          requires:
+            - build-test
+      - deployDev:
+          requires:
+            - holdDeployDev
       - holdDeployProd:
           type: approval
           requires:
             - build-test
+            - deployUAT
       - deployProd:
           requires:
             - holdDeployProd
-            - deployUAT
 
 
 # This is for when we need to deploy with static files, do not touch please
