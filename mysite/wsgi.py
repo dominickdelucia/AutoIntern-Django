@@ -17,15 +17,16 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-settings_options = { "DEV" : "mysite.settings.base",
-                     "UAT" : "mysite.settings.uat",
-                     "PROD" : "mysite.settings.prod"
-                    }
-ENVIRONMENT = "DEV"
-if (os.environ["ENVIRONMENT"] == "DEV" or
-    os.environ["ENVIRONMENT"] == "UAT" or
-    os.environ["ENVIRONMENT"] == "PROD"):
-        ENVIRONMENT = os.environ["ENVIRONMENT"]
-#os.environ.setdefault("DJANGO_SETTINGS_MODULE", "mysite.settings")
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", settings_options[ENVIRONMENT])
+SETTINGS = "mysite.settings.base"
+try:
+    if os.environ["ENVIRONMENT"] == 'UAT':
+        SETTINGS = "mysite.settings.uat"
+    if os.environ["ENVIRONMENT"] == 'PROD':
+        SETTINGS = "mysite.settings.prod"
+except KeyError as ke:
+    #Assume this is ok and using the default settings
+    pass
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", SETTINGS)
+
+# os.environ.setdefault("DJANGO_SETTINGS_MODULE", settings_options[ENVIRONMENT])
 application = get_wsgi_application()
