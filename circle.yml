@@ -13,7 +13,9 @@ machine:
     PYTHONPATH: ${PYTHONPATH}:${HOME}/google_appengine
 
     # Replace this with your project ID
-    GCLOUD_PROJECT: "$GCLOUD_PROJECT_ID"
+    GCLOUD_PROD_ID: "$GCLOUD_PROJECT_ID"
+    GCLOUD_DEV_ID: "$GCLOUD_DEV_ID"
+    #GCLOUD_UAT:
 
 dependencies:
   pre:
@@ -22,25 +24,27 @@ dependencies:
     - curl -o $HOME/google_appengine_1.9.30.zip https://storage.googleapis.com/appengine-sdks/featured/google_appengine_1.9.30.zip
     - unzip -q -d $HOME $HOME/google_appengine_1.9.30.zip
     # Retrieve our secrets from the CircleCI environment
-    - echo $CLIENT_SECRET | base64 --decode > ${HOME}/client-secret.json
+    - echo $DEV_SECRET | base64 --decode > ${HOME}/dev_secret.json
+    - echo $CLIENT_SECRET | base64 --decode > ${HOME}/prod_secret.json
     # vendor our dependencies
     - mkdir -p lib
     - pip install -r requirements.txt -t lib
     # Make sure gcloud is up to date
     - gcloud --quiet components update app
     # authenticate gcloud
-    - gcloud auth activate-service-account --key-file ${HOME}/client-secret.json
+    - gcloud auth activate-service-account --key-file ${HOME}/dev_secret.json
+    - gcloud auth activate-service-account --key-file ${HOME}/prod_secret.json
     # Replace <your-project-id>
-    - gcloud config set project $GCLOUD_PROJECT_ID
+    - gcloud config set project $GCLOUD_DEV_ID
 
-test:
-  override:
+#test:
+#  override:
 
-deployment:
-    staging:
-        branch: master
-        commands:
-        # create AppEngine
-        #gcloud app create --region=us-central
-        # deploy to AppEngine
-        - gcloud -q app deploy app.yaml --promote --version=1
+#deployment:
+#    staging:
+#        branch: master
+#        commands:
+#        # create AppEngine
+#        #gcloud app create --region=us-central
+#        # deploy to AppEngine
+#        - gcloud -q app deploy app.yaml --promote --version=1

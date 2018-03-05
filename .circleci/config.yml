@@ -25,20 +25,49 @@ jobs:
           paths:
             - ./venv
           key: v1-dependencies-{{ checksum "requirements.txt" }}
-      
-      - run:
-          name: Set Up GOOGLE_CLOUD_DEFAULT_CREDENTIALS
-          command: |
-            echo $CLIENT_SECRET | base64 -di > /tmp/client_secret.json
+  test:
+    docker:
+      - image: circleci/python:3.6.2-stretch-browsers
+    steps:
+      - checkout
+      #- run:
+      #    name: Set Up GOOGLE_CLOUD_DEFAULT_CREDENTIALS
+      #    command: |
+      #      echo $DEV_SECRET | base64 -di > /tmp/dev_secret.json
 
       - run:
           name: run tests
           command: |
-            export GOOGLE_APPLICATION_CREDENTIALS="/tmp/client_secret.json"
+            export GOOGLE_APPLICATION_CREDENTIALS="/tmp/dev_secret.json"
             . venv/bin/activate
-            ./cloud_sql_proxy_linux -instances="autointern-196523:us-east1:terndb1"=tcp:5432 &
+            ./cloud_sql_proxy_linux -instances="$DEV_database"=tcp:5432 &
             python manage.py test
 
       - store_artifacts:
           path: test-reports
           destination: test-reports
+  deployDev:
+    steps:
+      - gcloud -q app deploy dev_app.yaml --promote --version=1
+  deployProd:
+    steps:
+      - gcloud config set project $GCLOUD_PROD_ID
+      - gcloud -q app deploy prod_app.yaml --promote --version=1
+workflows:
+  version: 2
+  build-test-deployDev-approval-deployProd:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
+      - deployDev:
+          requires:
+            - test
+      - hold:
+          type: approval
+          requires:
+            - deployDev
+      - deployProd:
+          requires:
+            - hold
