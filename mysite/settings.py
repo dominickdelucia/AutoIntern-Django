@@ -145,7 +145,7 @@ if os.getenv('GAE_INSTANCE'):
 else:
     DATABASES['prod']['HOST'] = '127.0.0.1'
 
-DATABASES['prod']['HOST'] = '/cloudsql/autointern-uat:us-east1:autointern-uat'
+DATABASES['uat']['HOST'] = '/cloudsql/autointern-uat:us-east1:autointern-uat'
 if os.getenv('GAE_INSTANCE'):
     pass
 else:
