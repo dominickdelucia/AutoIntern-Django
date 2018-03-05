@@ -46,13 +46,22 @@ jobs:
       - store_artifacts:
           path: test-reports
           destination: test-reports
+
   deployDev:
+    machine:
+      enabled: true
+    working_directory: ~/AutoIntern-Django
     steps:
       - gcloud -q app deploy dev_app.yaml --promote --version=1
+
   deployProd:
+    machine:
+      enabled: true
+    working_directory: ~/AutoIntern-Django
     steps:
       - gcloud config set project $GCLOUD_PROD_ID
       - gcloud -q app deploy prod_app.yaml --promote --version=1
+
 workflows:
   version: 2
   build-test-deployDev-approval-deployProd:
