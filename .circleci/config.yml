@@ -34,7 +34,7 @@ jobs:
           command: |
             export GOOGLE_APPLICATION_CREDENTIALS="/tmp/dev_secret.json"
             . venv/bin/activate
-            ./cloud_sql_proxy_linux -instances="$DEV_database"=tcp:5432 &
+            ./cloud_sql_proxy_linux -instances="$DEV_DATABASE"=tcp:5432 &
             python manage.py test
 
       - store_artifacts:
@@ -57,9 +57,29 @@ jobs:
             export GOOGLE_APPLICATION_CREDENTIALS="/tmp/dev_secret.json"
             gcloud --quiet components update app
             gcloud auth activate-service-account --key-file $GOOGLE_APPLICATION_CREDENTIALS
-            gcloud config set project $GCLOUD_DEV_ID
+            gcloud config set project $DEV_ID
             gcloud config configurations list
             gcloud -q app deploy dev_app.yaml --promote --version=1
+
+  deployUAT:
+    machine:
+      enabled: true
+    working_directory: ~/AutoIntern-Django
+    steps:
+      - checkout
+      - run:
+          name: Set Up GOOGLE_CLOUD_DEFAULT_CREDENTIALS
+          command: |
+            echo $UAT_SECRET | base64 -di > /tmp/uat_secret.json
+      - run:
+          name: Deploy To Dev Server
+          command: |
+            export GOOGLE_APPLICATION_CREDENTIALS="/tmp/uat_secret.json"
+            gcloud --quiet components update app
+            gcloud auth activate-service-account --key-file $GOOGLE_APPLICATION_CREDENTIALS
+            gcloud config set project $UAT_ID
+            gcloud config configurations list
+            gcloud -q app deploy uat_app.yaml --promote --version=1
 
   deployProd:
     machine:
@@ -70,16 +90,17 @@ jobs:
       - run:
           name: Set Up GOOGLE_CLOUD_DEFAULT_CREDENTIALS
           command: |
-            echo $CLIENT_SECRET | base64 -di > /tmp/prod_secret.json # This is production secret
+            echo $PROD_SECRET | base64 -di > /tmp/prod_secret.json
+            # This is production secret
       - run:
           name: Deploy To Prod Server
           command: |
             export GOOGLE_APPLICATION_CREDENTIALS="/tmp/prod_secret.json"
             gcloud --quiet components update app
             gcloud auth activate-service-account --key-file $GOOGLE_APPLICATION_CREDENTIALS
-            gcloud config set project $GCLOUD_PROJECT_ID
+            gcloud config set project $PROD_ID
             gcloud config configurations list
-            gcloud -q app deploy dev_app.yaml --promote --version=1
+            gcloud -q app deploy prod_app.yaml --promote --version=1
 
 workflows:
   version: 2
@@ -93,13 +114,17 @@ workflows:
       - deployDev:
           requires:
             - holdDeployDev
-      #- deployUAT:
-      #    requires:
-      #      - build-test
+      - deployUAT:
+          filters:
+            branches:
+              only:
+                - master
+          requires:
+            - build-test
       - holdDeployProd:
           type: approval
           requires:
-            - deployDev
+            - build-test
       - deployProd:
           requires:
             - holdDeployProd
