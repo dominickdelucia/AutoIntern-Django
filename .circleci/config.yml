@@ -36,8 +36,13 @@ jobs:
             echo $DEV_SECRET | base64 -di > /tmp/dev_secret.json
 
       # TODO: Look into restore cache
+      #- restore_cache:
+      #    key: v1-dependencies-{{ checksum "requirements.txt" }}
       - restore_cache:
-          key: v1-dependencies-{{ checksum "requirements.txt" }}
+          keys:
+          - v1-dependencies-{{ checksum "requirements.txt" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
 
       - run:
           name: Install Python deps in a venv
