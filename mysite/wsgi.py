@@ -17,6 +17,15 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "mysite.settings")
-
+settings_options = { "DEV" : "mysite.settings.base",
+                     "UAT" : "mysite.settings.uat",
+                     "PROD" : "mysite.settings.prod"
+                    }
+ENVIRONMENT = "DEV"
+if (os.environ["ENVIRONMENT"] == "DEV" or
+    os.environ["ENVIRONMENT"] == "UAT" or
+    os.environ["ENVIRONMENT"] == "PROD"):
+        ENVIRONMENT = os.environ["ENVIRONMENT"]
+#os.environ.setdefault("DJANGO_SETTINGS_MODULE", "mysite.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", settings_options[ENVIRONMENT])
 application = get_wsgi_application()
