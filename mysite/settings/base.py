@@ -81,7 +81,7 @@ LOGGING = {
         'file': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
-            'filename': '/tmp/DjangoLogs/debug.log',
+            'filename': '/tmp/DjangoDebug.log',
         },
     },
     'loggers': {
