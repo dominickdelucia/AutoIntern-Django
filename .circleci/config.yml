@@ -1,18 +1,15 @@
 version: 2
 jobs:
-  build:
+  build-test:
     docker:
-      - image: circleci/python:3.6.2-stretch-browsers
+      - image: circleci/python:3.6.1
 
     working_directory: ~/AutoIntern-Django
     steps:
       - checkout
 
       - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "requirements.txt" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
+          key: v1-dependencies-{{ checksum "requirements.txt" }}
 
       - run:
           name: Install Python deps in a venv
@@ -23,22 +20,100 @@ jobs:
 
       - save_cache:
           paths:
-            - ./venv
+            - "venv"
           key: v1-dependencies-{{ checksum "requirements.txt" }}
-      
+
       - run:
           name: Set Up GOOGLE_CLOUD_DEFAULT_CREDENTIALS
           command: |
-            echo $CLIENT_SECRET | base64 -di > /tmp/client_secret.json
+            echo $DEV_SECRET | base64 -di > /tmp/dev_secret.json
+            #echo $CLIENT_SECRET | base64 -di > /tmp/prod_secret.json
 
       - run:
           name: run tests
           command: |
-            export GOOGLE_APPLICATION_CREDENTIALS="/tmp/client_secret.json"
+            export GOOGLE_APPLICATION_CREDENTIALS="/tmp/dev_secret.json"
             . venv/bin/activate
-            ./cloud_sql_proxy_linux -instances="autointern-196523:us-east1:terndb1"=tcp:5432 &
+            ./cloud_sql_proxy_linux -instances="$DEV_database"=tcp:5432 &
             python manage.py test
 
       - store_artifacts:
           path: test-reports
           destination: test-reports
+
+  deployDev:
+    machine:
+      enabled: true
+    working_directory: ~/AutoIntern-Django
+    steps:
+      - checkout
+      - run:
+          name: Set Up GOOGLE_CLOUD_DEFAULT_CREDENTIALS
+          command: |
+            echo $DEV_SECRET | base64 -di > /tmp/dev_secret.json
+      - run:
+          name: Deploy To Dev Server
+          command: |
+            export GOOGLE_APPLICATION_CREDENTIALS="/tmp/dev_secret.json"
+            gcloud --quiet components update app
+            gcloud auth activate-service-account --key-file $GOOGLE_APPLICATION_CREDENTIALS
+            gcloud config set project $GCLOUD_DEV_ID
+            gcloud config configurations list
+            gcloud -q app deploy dev_app.yaml --promote --version=1
+
+  deployProd:
+    machine:
+      enabled: true
+    working_directory: ~/AutoIntern-Django
+    steps:
+      - checkout
+      - run:
+          name: Set Up GOOGLE_CLOUD_DEFAULT_CREDENTIALS
+          command: |
+            echo $CLIENT_SECRET | base64 -di > /tmp/prod_secret.json # This is production secret
+      - run:
+          name: Deploy To Prod Server
+          command: |
+            export GOOGLE_APPLICATION_CREDENTIALS="/tmp/prod_secret.json"
+            gcloud --quiet components update app
+            gcloud auth activate-service-account --key-file $GOOGLE_APPLICATION_CREDENTIALS
+            gcloud config set project $GCLOUD_PROJECT_ID
+            gcloud config configurations list
+            gcloud -q app deploy dev_app.yaml --promote --version=1
+
+workflows:
+  version: 2
+  build-test-optionally-deployDev-deployUAT-approval-deployProd:
+    jobs:
+      - build-test
+      - holdDeployDev:
+          type: approval
+          requires:
+            - build-test
+      - deployDev:
+          requires:
+            - holdDeployDev
+      #- deployUAT:
+      #    requires:
+      #      - build-test
+      - holdDeployProd:
+          type: approval
+          requires:
+            - deployDev
+      - deployProd:
+          requires:
+            - holdDeployProd
+
+
+# This is for when we need to deploy with static files, do not touch please
+ #export GOOGLE_APPLICATION_CREDENTIALS="/tmp/client_secret.json"
+ #export PYTHONPATH="${HOME}/appengine"
+ #export PYTHONPATH=${PYTHONPATH}:${HOME}/google-cloud-sdk
+ #. venv/bin/activate
+ #rm -rf ./static
+ #python manage.py collectstatic
+ #${HOME}/google-cloud-sdk/bin/gcloud auth activate-service-account --key-file "/tmp/client_secret.json"
+ #${HOME}/google-cloud-sdk/bin/gcloud --quiet components update app
+ #${HOME}/google-cloud-sdk/bin/gsutil rsync -R static/ gs://autointern/static
+ #${HOME}/google-cloud-sdk/bin/gcloud config set project $GCLOUD_PROJECT_ID
+ #${HOME}/google-cloud-sdk/bin/gcloud app -q deploy
