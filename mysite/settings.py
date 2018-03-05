@@ -91,30 +91,32 @@ DATABASES = {
         # For MySQL, set 'PORT': '3306' instead of the following. Any Cloud
         # SQL Proxy instances running locally must also be set to tcp:3306.
         'PORT': '5432',
-    }""",
-    'prod': {
-        # If you are using Cloud SQL for MySQL rather than PostgreSQL, set
-        # 'ENGINE': 'django.db.backends.mysql' instead of the following.
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': 'supersecret',
-        # For MySQL, set 'PORT': '3306' instead of the following. Any Cloud
-        # SQL Proxy instances running locally must also be set to tcp:3306.
-        'PORT': '5432',
     },
-    'uat': {
-        # If you are using Cloud SQL for MySQL rather than PostgreSQL, set
-        # 'ENGINE': 'django.db.backends.mysql' instead of the following.
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': 'winnerwinner',
-        # For MySQL, set 'PORT': '3306' instead of the following. Any Cloud
-        # SQL Proxy instances running locally must also be set to tcp:3306.
-        'PORT': '5432',
-    }"""
 }
+
+"""
+,
+'prod': {
+    # If you are using Cloud SQL for MySQL rather than PostgreSQL, set
+    # 'ENGINE': 'django.db.backends.mysql' instead of the following.
+    'ENGINE': 'django.db.backends.postgresql',
+    'NAME': 'postgres',
+    'USER': 'postgres',
+    'PASSWORD': 'supersecret',
+    # For MySQL, set 'PORT': '3306' instead of the following. Any Cloud
+    # SQL Proxy instances running locally must also be set to tcp:3306.
+    'PORT': '5432',
+},
+'uat': {
+    # If you are using Cloud SQL for MySQL rather than PostgreSQL, set
+    # 'ENGINE': 'django.db.backends.mysql' instead of the following.
+    'ENGINE': 'django.db.backends.postgresql',
+    'NAME': 'postgres',
+    'USER': 'postgres',
+    'PASSWORD': 'winnerwinner',
+    # For MySQL, set 'PORT': '3306' instead of the following. Any Cloud
+    # SQL Proxy instances running locally must also be set to tcp:3306.
+    'PORT': '5432',}"""
 
 #if 'test' in sys.argv:
 #    DATABASES['default'] = {
