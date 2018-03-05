@@ -79,7 +79,7 @@ jobs:
             gcloud auth activate-service-account --key-file $GOOGLE_APPLICATION_CREDENTIALS
             gcloud config set project $GCLOUD_PROJECT_ID
             gcloud config configurations list
-            gcloud -q app deploy dev_app.yaml --promote --version=1
+            gcloud -q app deploy prod_app.yaml --promote --version=1
 
 workflows:
   version: 2
@@ -99,7 +99,7 @@ workflows:
       - holdDeployProd:
           type: approval
           requires:
-            - deployDev
+            - build-test
       - deployProd:
           requires:
             - holdDeployProd
