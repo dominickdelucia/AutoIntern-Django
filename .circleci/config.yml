@@ -30,10 +30,10 @@ jobs:
       - image: circleci/python:3.6.2-stretch-browsers
     steps:
       - checkout
-      #- run:
-      #    name: Set Up GOOGLE_CLOUD_DEFAULT_CREDENTIALS
-      #    command: |
-      #      echo $DEV_SECRET | base64 -di > /tmp/dev_secret.json
+      - run:
+          name: Set Up GOOGLE_CLOUD_DEFAULT_CREDENTIALS
+          command: |
+            echo $DEV_SECRET | base64 -di > /tmp/dev_secret.json
 
       # TODO: Look into restore cache
       - restore_cache:
@@ -51,7 +51,7 @@ jobs:
           command: |
             export GOOGLE_APPLICATION_CREDENTIALS="/tmp/dev_secret.json"
             . venv/bin/activate
-            echo "$DEV_database"
+            #echo "$DEV_database"
             ./cloud_sql_proxy_linux -instances="$DEV_database"=tcp:5432 &
             python manage.py test
 
