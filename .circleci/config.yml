@@ -68,11 +68,15 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Set Up GOOGLE_CLOUD_DEFAULT_CREDENTIALS
+          command: |
+            echo $DEV_SECRET | base64 -di > /tmp/dev_secret.json
+      - run:
           name: Deploy To Dev Server
           command: |
             export GOOGLE_APPLICATION_CREDENTIALS="/tmp/dev_secret.json"
-            echo "Hello"
-            echo $GOOGLE_APPLICAITION_CREDENTIALS
+            gcloud auth activate-service-account --key-file $GOOGLE_APPLICATION_CREDENTIALS
+            gcloud config set project $GCLOUD_DEV_ID
             gcloud config configurations list
             gcloud -q app deploy dev_app.yaml --promote --version=1
 
