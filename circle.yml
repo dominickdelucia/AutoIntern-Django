@@ -17,7 +17,7 @@ machine:
     GCLOUD_DEV_ID: "$GCLOUD_DEV_ID"
     #GCLOUD_UAT:
 
-dependencies:
+test:
   pre:
     # Download App Engine SDK
     # This is not necessary to deploy, its only necessary  to run local tests importing the App Engine SDK
