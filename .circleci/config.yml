@@ -1,56 +1,53 @@
 version: 2
 jobs:
-  build:
+  build-test:
     docker:
-      - image: circleci/python:3.6.2-stretch-browsers
+      - image: circleci/python:3.6.1
 
     working_directory: ~/AutoIntern-Django
     steps:
       - checkout
 
       - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "requirements.txt" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
+          key: v1-dependencies-{{ checksum "requirements.txt" }}
 
       - run:
           name: Install Python deps in a venv
           command: |
-            echo $GCLOUD_PROD_ID
             python3 -m venv venv
             . venv/bin/activate
             pip install -r requirements.txt
 
       - save_cache:
           paths:
-            - ./venv
+            - "venv"
           key: v1-dependencies-{{ checksum "requirements.txt" }}
-  test:
-    docker:
-      - image: circleci/python:3.6.2-stretch-browsers
-    steps:
-      - checkout
+#  test:
+#    docker:
+#      - image: circleci/python:3.6.1
+#    steps:
+#      - checkout
       - run:
           name: Set Up GOOGLE_CLOUD_DEFAULT_CREDENTIALS
           command: |
             echo $DEV_SECRET | base64 -di > /tmp/dev_secret.json
+            echo $CLIENT_SECRET | base64 --di > /tmp/prod_secret.json
 
       # TODO: Look into restore cache
       #- restore_cache:
       #    key: v1-dependencies-{{ checksum "requirements.txt" }}
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "requirements.txt" }}
+#      - restore_cache:
+#          keys:
+#          - v1-dependencies-{{ checksum "requirements.txt" }}
           # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
+#          - v1-dependencies-
 
-      - run:
-          name: Install Python deps in a venv
-          command: |
-            python3 -m venv venv
-            . venv/bin/activate
-            pip install -r requirements.txt
+#      - run:
+#          name: Install Python deps in a venv
+#          command: |
+#            python3 -m venv venv
+#            . venv/bin/activate
+#            pip install -r requirements.txt
 
       - run:
           name: run tests
@@ -73,6 +70,9 @@ jobs:
       - run:
           name: Deploy To Dev Server
           command: |
+            export GOOGLE_APPLICATION_CREDENTIALS="/tmp/dev_secret.json"
+            echo "Hello"
+            echo $GOOGLE_APPLICAITION_CREDENTIALS
             gcloud config configurations list
             gcloud -q app deploy dev_app.yaml --promote --version=1
 
@@ -91,13 +91,13 @@ workflows:
   version: 2
   build-test-deployDev-approval-deployProd:
     jobs:
-      - build
-      - test:
-          requires:
-            - build
+      - build-test
+ #     - test:
+ #         requires:
+ #           - build
       - deployDev:
           requires:
-            - test
+            - build-test
       - hold:
           type: approval
           requires:
