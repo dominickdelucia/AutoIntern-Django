@@ -29,7 +29,7 @@ jobs:
     docker:
       - image: circleci/python:3.6.2-stretch-browsers
     steps:
-      - checkout
+      #- checkout
       - run:
           name: Set Up GOOGLE_CLOUD_DEFAULT_CREDENTIALS
           command: |
@@ -64,15 +64,21 @@ jobs:
       enabled: true
     working_directory: ~/AutoIntern-Django
     steps:
-      - gcloud -q app deploy dev_app.yaml --promote --version=1
+      - run:
+          name: Deploy To Dev Server
+          command: |
+            gcloud -q app deploy dev_app.yaml --promote --version=1
 
   deployProd:
     machine:
       enabled: true
     working_directory: ~/AutoIntern-Django
     steps:
-      - gcloud config set project $GCLOUD_PROD_ID
-      - gcloud -q app deploy prod_app.yaml --promote --version=1
+      - run:
+          name: Deploy To Dev Server
+          command: |
+            gcloud config set project $GCLOUD_PROD_ID
+            gcloud -q app deploy prod_app.yaml --promote --version=1
 
 workflows:
   version: 2
