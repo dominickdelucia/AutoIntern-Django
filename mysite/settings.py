@@ -87,12 +87,23 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'postgres',
         'USER': 'postgres',
-        'PASSWORD': 'winnerwinner',
+        'PASSWORD': '024lana',
         # For MySQL, set 'PORT': '3306' instead of the following. Any Cloud
         # SQL Proxy instances running locally must also be set to tcp:3306.
         'PORT': '5432',
     },
     'prod': {
+        # If you are using Cloud SQL for MySQL rather than PostgreSQL, set
+        # 'ENGINE': 'django.db.backends.mysql' instead of the following.
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': 'supersecret',
+        # For MySQL, set 'PORT': '3306' instead of the following. Any Cloud
+        # SQL Proxy instances running locally must also be set to tcp:3306.
+        'PORT': '5432',
+    },
+    'uat': {
         # If you are using Cloud SQL for MySQL rather than PostgreSQL, set
         # 'ENGINE': 'django.db.backends.mysql' instead of the following.
         'ENGINE': 'django.db.backends.postgresql',
@@ -122,12 +133,19 @@ DATABASES = {
 # In the flexible environment, you connect to CloudSQL using a unix socket.
 # Locally, you can use the CloudSQL proxy to proxy a localhost connection
 # to the instance
-DATABASES['default']['HOST'] = '/cloudsql/autointern-dev:us-east1:autointern-uat' # Make UAT?
+DATABASES['default']['HOST'] = '/cloudsql/autointern-dev:us-east1:autointern-dev'
 if os.getenv('GAE_INSTANCE'):
     pass
 else:
     DATABASES['default']['HOST'] = '127.0.0.1'
-DATABASES['prod']['HOST'] = '/cloudsql/autointern-196523:us-east1:terndb1' # Make UAT?
+
+DATABASES['prod']['HOST'] = '/cloudsql/autointern-prod:us-east1:autointern-prod'
+if os.getenv('GAE_INSTANCE'):
+    pass
+else:
+    DATABASES['prod']['HOST'] = '127.0.0.1'
+
+DATABASES['prod']['HOST'] = '/cloudsql/autointern-uat:us-east1:autointern-uat'
 if os.getenv('GAE_INSTANCE'):
     pass
 else:
