@@ -106,7 +106,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'postgres',
         'USER': 'postgres',
-        'PASSWORD': '024lana',
+        # 'PASSWORD': '024lana',
+        'PASSWORD' : 'winnerwinner',
         # For MySQL, set 'PORT': '3306' instead of the following. Any Cloud
         # SQL Proxy instances running locally must also be set to tcp:3306.
         'PORT': '5432',
