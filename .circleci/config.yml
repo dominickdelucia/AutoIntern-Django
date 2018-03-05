@@ -17,6 +17,7 @@ jobs:
       - run:
           name: Install Python deps in a venv
           command: |
+            echo $GCLOUD_PROD_ID
             python3 -m venv venv
             . venv/bin/activate
             pip install -r requirements.txt
@@ -68,6 +69,7 @@ jobs:
       enabled: true
     working_directory: ~/AutoIntern-Django
     steps:
+      - checkout
       - run:
           name: Deploy To Dev Server
           command: |
