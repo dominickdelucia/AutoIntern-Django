@@ -11,3 +11,4 @@ DATABASES = {
     }
 }
 DATABASES['default']['host'] = '/cloudsql/autointern-uat:us-east1:autointern-uat'
+STATIC_URL = 'https://storage.googleapis.com/autointern-uat/static/'
