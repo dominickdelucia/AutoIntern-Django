@@ -128,6 +128,7 @@ workflows:
       - deployProd:
           requires:
             - holdDeployProd
+            - deployUAT
 
 
 # This is for when we need to deploy with static files, do not touch please
