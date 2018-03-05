@@ -71,6 +71,7 @@ jobs:
       - run:
           name: Deploy To Dev Server
           command: |
+            gcloud config configurations list
             gcloud -q app deploy dev_app.yaml --promote --version=1
 
   deployProd:

@@ -36,6 +36,7 @@ dependencies:
     - gcloud auth activate-service-account --key-file ${HOME}/prod_secret.json
     # Replace <your-project-id>
     - gcloud config set project $GCLOUD_DEV_ID
+    - gcloud config configurations list
 
 #test:
 #  override:
