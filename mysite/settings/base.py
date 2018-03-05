@@ -175,7 +175,7 @@ USE_TZ = True
 # Fill in your cloud bucket and switch which one of the following 2 lines
 # is commented to serve static content from GCS
 # STATIC_URL = 'https://storage.googleapis.com/<your-gcs-bucket>/static/'
-STATIC_URL = 'https://storage.googleapis.com/autointern/static/'
+STATIC_URL = 'https://storage.googleapis.com/autointern-dev/static/'
 # [END staticurl]
 
 STATIC_ROOT = 'static/'
