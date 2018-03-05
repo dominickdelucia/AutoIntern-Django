@@ -91,7 +91,7 @@ DATABASES = {
         # For MySQL, set 'PORT': '3306' instead of the following. Any Cloud
         # SQL Proxy instances running locally must also be set to tcp:3306.
         'PORT': '5432',
-    },
+    }""",
     'prod': {
         # If you are using Cloud SQL for MySQL rather than PostgreSQL, set
         # 'ENGINE': 'django.db.backends.mysql' instead of the following.
@@ -113,7 +113,7 @@ DATABASES = {
         # For MySQL, set 'PORT': '3306' instead of the following. Any Cloud
         # SQL Proxy instances running locally must also be set to tcp:3306.
         'PORT': '5432',
-    }
+    }"""
 }
 
 #if 'test' in sys.argv:
@@ -138,7 +138,7 @@ if os.getenv('GAE_INSTANCE'):
     pass
 else:
     DATABASES['default']['HOST'] = '127.0.0.1'
-
+"""
 DATABASES['prod']['HOST'] = '/cloudsql/autointern-prod:us-east1:autointern-prod'
 if os.getenv('GAE_INSTANCE'):
     pass
@@ -150,7 +150,7 @@ if os.getenv('GAE_INSTANCE'):
     pass
 else:
     DATABASES['prod']['HOST'] = '127.0.0.1'
-
+"""
 # [END dbconfig]
 
 # Internationalization
