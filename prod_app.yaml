@@ -1,6 +1,6 @@
 # [START runtime]
 env_variables:
-  ENVIRONMENT: PROD
+ ENVIRONMENT: PROD
 
 runtime: python
 env: flex
