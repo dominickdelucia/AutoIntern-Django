@@ -79,7 +79,7 @@ jobs:
             gcloud --quiet components update app
             gcloud auth activate-service-account --key-file $GOOGLE_APPLICATION_CREDENTIALS
             gcloud config set project $UAT_ID
-            ./cloud_sql_proxy_linux -instances="$UAT_DATABASE"=tcp:5432 &
+            #./cloud_sql_proxy_linux -instances="$UAT_DATABASE"=tcp:5432 &
             gcloud -q app deploy uat_app.yaml --promote --version=1
 
   deployProd:
@@ -101,7 +101,7 @@ jobs:
             gcloud --quiet components update app
             gcloud auth activate-service-account --key-file $GOOGLE_APPLICATION_CREDENTIALS
             gcloud config set project $PROD_ID
-            ./cloud_sql_proxy_linux -instances="$PROD_DATABASE"=tcp:5432 &
+            #./cloud_sql_proxy_linux -instances="$PROD_DATABASE"=tcp:5432 &
             gcloud -q app deploy prod_app.yaml --promote --version=1
 
 workflows:
