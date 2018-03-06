@@ -16,4 +16,4 @@ from django.http import HttpResponse
 
 
 def index(request):
-    return HttpResponse("Hello AutoIntern! This is the index page....more to come")
+    return HttpResponse("Hello AutoIntern! This is the index page.....more to come")
