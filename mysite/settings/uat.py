@@ -13,7 +13,8 @@ DATABASES = {
     }
 }
 
-DATABASES['default']['HOST'] = '/cloudsql/autointern-uat:us-east1:autointern-uat'
+# DATABASES['default']['HOST'] = '/cloudsql/autointern-uat:us-east1:autointern-uat'
+DATABASES['default']['HOST'] = '127.0.0.1'
 if os.getenv('GAE_INSTANCE'):
     pass
 else:
