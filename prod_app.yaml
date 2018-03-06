@@ -6,7 +6,7 @@ env: flex
 entrypoint: gunicorn -b :$PORT mysite.wsgi
 
 beta_settings:
-    cloud_sql_instances: autointern-prod:us-east1:autointern-prod
+  cloud_sql_instances: autointern-prod:us-east1:autointern-prod
 #autointern-196523:us-east1:terndb1
 
 runtime_config:
