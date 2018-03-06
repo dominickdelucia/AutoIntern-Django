@@ -12,5 +12,6 @@ DATABASES = {
         'PORT': '5432'
     }
 }
-DATABASES['default']['host'] = '/cloudsql/autointern-uat:us-east1:autointern-uat'
+# DATABASES['default']['host'] = '/cloudsql/autointern-uat:us-east1:autointern-uat'
+DATABASES['default']['host'] = '127.0.0.1'
 STATIC_URL = 'https://storage.googleapis.com/autointern-uat/static/'
