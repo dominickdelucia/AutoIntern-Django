@@ -15,9 +15,9 @@ DATABASES = {
 
 DATABASES['default']['HOST'] = '/cloudsql/autointern-uat:us-east1:autointern-uat'
 
-if os.getenv('GAE_INSTANCE'):
-    pass
-else:
-    DATABASES['default']['HOST'] = '127.0.0.1'
+#if os.getenv('GAE_INSTANCE'):
+#    pass
+#else:
+#    DATABASES['default']['HOST'] = '127.0.0.1'
 
 STATIC_URL = 'https://storage.googleapis.com/autointern-uat/static/'
