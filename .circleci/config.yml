@@ -81,6 +81,7 @@ jobs:
             gcloud auth activate-service-account --key-file $GOOGLE_APPLICATION_CREDENTIALS
             gcloud config set project $UAT_ID
             gcloud sql instances describe autointern-uat
+            ./cloud_sql_proxy_linux -instances="$PROD_DATABASE"=tcp:5432 &
             gcloud -q app deploy uat_app.yaml --promote --version=1
 
   deployProd:
@@ -102,7 +103,7 @@ jobs:
             gcloud auth activate-service-account --key-file $GOOGLE_APPLICATION_CREDENTIALS
             gcloud config set project $PROD_ID
             gcloud sql instances describe autointern-prod
-            gcloud components update
+            #gcloud components update
             gcloud -q app deploy prod_app.yaml --promote --version=1
 
 workflows:
