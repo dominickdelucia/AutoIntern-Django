@@ -11,5 +11,5 @@ runtime_config:
   python_version: 3
 # [END runtime]
 
-# env_variables:
-#  ENVIRONMENT: 'PROD'
+env_variables:
+  ENVIRONMENT: PROD
