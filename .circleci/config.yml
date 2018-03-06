@@ -116,13 +116,9 @@ workflows:
                 - master
           requires:
             - build-test
-      - holdDeployDev:
-          type: approval
-          requires:
-            - build-test
       - deployDev:
           requires:
-            - holdDeployDev
+            - build-test
       - holdDeployProd:
           type: approval
           requires:
@@ -130,7 +126,7 @@ workflows:
             - deployUAT
       - deployProd:
           requires:
-            - holdDeployProd
+            - build-test
 
 
 # This is for when we need to deploy with static files, do not touch please
