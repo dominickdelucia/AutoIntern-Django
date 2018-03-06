@@ -55,7 +55,7 @@ jobs:
           name: Deploy To Dev Server
           command: |
             export GOOGLE_APPLICATION_CREDENTIALS="/tmp/dev_secret.json"
-            # export ENVIRONMENT="DEV"
+            export ENVIRONMENT="DEV"
             gcloud --quiet components update app
             gcloud auth activate-service-account --key-file $GOOGLE_APPLICATION_CREDENTIALS
             gcloud config set project $DEV_ID
@@ -76,7 +76,7 @@ jobs:
           name: Deploy To UAT Server
           command: |
             export GOOGLE_APPLICATION_CREDENTIALS="/tmp/uat_secret.json"
-            # export ENVIRONMENT="UAT"
+            export ENVIRONMENT="UAT"
             gcloud --quiet components update app
             gcloud auth activate-service-account --key-file $GOOGLE_APPLICATION_CREDENTIALS
             gcloud config set project $UAT_ID
