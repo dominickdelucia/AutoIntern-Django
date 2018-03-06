@@ -59,6 +59,7 @@ jobs:
             gcloud --quiet components update app
             gcloud auth activate-service-account --key-file $GOOGLE_APPLICATION_CREDENTIALS
             gcloud config set project $DEV_ID
+            gcloud sql instances describe autointern-dev
             gcloud -q app deploy dev_app.yaml --promote --version=1
 
   deployUAT:
@@ -100,6 +101,7 @@ jobs:
             gcloud --quiet components update app
             gcloud auth activate-service-account --key-file $GOOGLE_APPLICATION_CREDENTIALS
             gcloud config set project $PROD_ID
+            gcloud sql instances describe autointern-prod
             gcloud -q app deploy prod_app.yaml --promote --version=1
 
 workflows:
