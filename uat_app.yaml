@@ -1,7 +1,7 @@
 # [START runtime]
 
-env_variables:
- ENVIRONMENT: UAT
+#env_variables:
+# ENVIRONMENT: UAT
 
 runtime: python
 env: flex
