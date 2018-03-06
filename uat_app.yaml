@@ -1,4 +1,8 @@
 # [START runtime]
+
+env_variables:
+ ENVIRONMENT: UAT
+
 runtime: python
 env: flex
 entrypoint: gunicorn -b :$PORT mysite.wsgi
@@ -10,5 +14,3 @@ beta_settings:
 runtime_config:
   python_version: 3
 # [END runtime]
-env_variables:
- ENVIRONMENT: UAT
