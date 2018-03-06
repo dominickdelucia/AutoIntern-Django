@@ -34,8 +34,8 @@ jobs:
           command: |
             export GOOGLE_APPLICATION_CREDENTIALS="/tmp/dev_secret.json"
             . venv/bin/activate
-            ./cloud_sql_proxy_linux -instances="$DEV_DATABASE"=tcp:5432 &
-            python manage.py test
+            #./cloud_sql_proxy_linux -instances="$DEV_DATABASE"=tcp:5432 &
+            #python manage.py test
 
       - store_artifacts:
           path: test-reports
