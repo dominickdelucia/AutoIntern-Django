@@ -106,7 +106,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'postgres',
         'USER': 'postgres',
-        'PASSWORD': 'winnerwinner',
+        'PASSWORD': '024lana',
         # For MySQL, set 'PORT': '3306' instead of the following. Any Cloud
         # SQL Proxy instances running locally must also be set to tcp:3306.
         'PORT': '5432',
@@ -114,24 +114,10 @@ DATABASES = {
 }
 
 
-#if 'test' in sys.argv:
-#    DATABASES['default'] = {
-#        # If you are using Cloud SQL for MySQL rather than PostgreSQL, set
-#        # 'ENGINE': 'django.db.backends.mysql' instead of the following.
-#        'ENGINE': 'django.db.backends.postgresql',
-#        'NAME': 'postgres',
-#        'USER': 'postgres',
-#        'PASSWORD': '024lana',
-        # For MySQL, set 'PORT': '3306' instead of the following. Any Cloud
-        # SQL Proxy instances running locally must also be set to tcp:3306.
-#        'PORT': '5432',
-#    }
-
-
 # In the flexible environment, you connect to CloudSQL using a unix socket.
 # Locally, you can use the CloudSQL proxy to proxy a localhost connection
 # to the instance
-DATABASES['default']['HOST'] = '/cloudsql/autointern-uat:us-east1:autointern-uat'
+DATABASES['default']['HOST'] = '/cloudsql/autointern-dev:us-east1:autointern-dev'
 if os.getenv('GAE_INSTANCE'):
     pass
 else:
@@ -160,7 +146,7 @@ USE_TZ = True
 # Fill in your cloud bucket and switch which one of the following 2 lines
 # is commented to serve static content from GCS
 # STATIC_URL = 'https://storage.googleapis.com/<your-gcs-bucket>/static/'
-STATIC_URL = 'https://storage.googleapis.com/autointern-uat/static/'
+STATIC_URL = 'https://storage.googleapis.com/autointern-dev/static/'
 # [END staticurl]
 
 STATIC_ROOT = 'static/'
