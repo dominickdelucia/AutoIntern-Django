@@ -74,6 +74,25 @@ TEMPLATES = [
     },
 ]
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': '/tmp/DjangoDebug.log',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
+
 WSGI_APPLICATION = 'mysite.wsgi.application'
 
 # Database
@@ -94,29 +113,6 @@ DATABASES = {
     },
 }
 
-"""
-,
-'prod': {
-    # If you are using Cloud SQL for MySQL rather than PostgreSQL, set
-    # 'ENGINE': 'django.db.backends.mysql' instead of the following.
-    'ENGINE': 'django.db.backends.postgresql',
-    'NAME': 'postgres',
-    'USER': 'postgres',
-    'PASSWORD': 'supersecret',
-    # For MySQL, set 'PORT': '3306' instead of the following. Any Cloud
-    # SQL Proxy instances running locally must also be set to tcp:3306.
-    'PORT': '5432',
-},
-'uat': {
-    # If you are using Cloud SQL for MySQL rather than PostgreSQL, set
-    # 'ENGINE': 'django.db.backends.mysql' instead of the following.
-    'ENGINE': 'django.db.backends.postgresql',
-    'NAME': 'postgres',
-    'USER': 'postgres',
-    'PASSWORD': 'winnerwinner',
-    # For MySQL, set 'PORT': '3306' instead of the following. Any Cloud
-    # SQL Proxy instances running locally must also be set to tcp:3306.
-    'PORT': '5432',}"""
 
 #if 'test' in sys.argv:
 #    DATABASES['default'] = {
@@ -140,19 +136,7 @@ if os.getenv('GAE_INSTANCE'):
     pass
 else:
     DATABASES['default']['HOST'] = '127.0.0.1'
-"""
-DATABASES['prod']['HOST'] = '/cloudsql/autointern-prod:us-east1:autointern-prod'
-if os.getenv('GAE_INSTANCE'):
-    pass
-else:
-    DATABASES['prod']['HOST'] = '127.0.0.1'
 
-DATABASES['uat']['HOST'] = '/cloudsql/autointern-uat:us-east1:autointern-uat'
-if os.getenv('GAE_INSTANCE'):
-    pass
-else:
-    DATABASES['prod']['HOST'] = '127.0.0.1'
-"""
 # [END dbconfig]
 
 # Internationalization
