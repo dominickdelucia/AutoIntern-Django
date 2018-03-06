@@ -136,6 +136,8 @@ if os.getenv('GAE_INSTANCE'):
     pass
 else:
     DATABASES['default']['HOST'] = '127.0.0.1'
+if os.environ["ENVIRONMENT"] == 'UAT':
+    DATABASES['default']['HOST'] = '/cloudsql/autointerntemp-uat:us-east1:autointern-uat'
 
 # [END dbconfig]
 
