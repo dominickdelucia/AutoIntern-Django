@@ -9,8 +9,8 @@ DATABASES = {
         'NAME': 'postgres',
         'USER': 'postgres',
         'PASSWORD': 'winnerwinner',
-        'PORT': '5432'
-    }
+        'PORT': '5432',
+    },
 }
 
 DATABASES['default']['HOST'] = '/cloudsql/autointern-uat:us-east1:autointern-uat'
