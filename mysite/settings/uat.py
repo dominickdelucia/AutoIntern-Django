@@ -1,4 +1,4 @@
-from mysite.setting.base import *
+from mysite.settings.base import *
 
 with open('/tmp/settings_log','w+') as settings_log:
     settings_log.write("Using the uat settings")
