@@ -59,30 +59,30 @@
         </button>
       </div>
       <div class="modal-body">
-          <form>
+          <form action="/register/" method="post">
             <div class="form-group">
-                <input type="email" class="form-control" id="registerEmail" aria-describedby="emailHelp" placeholder="Enter email">
+                <input type="email" class="form-control" id="registerEmail" aria-describedby="emailHelp" placeholder="Enter email" value="{{ registerEmail }}">
             </div>
             <div class="form-group">
-                <input type="password" class="form-control" id=registerPassword" placeholder="Password">
+                <input type="password" class="form-control" id=registerPassword" placeholder="Password" value="{{ registerPassword }}">
             </div>
             <div class="form-group">
                 <small id="passwordHelp" class="form-text text-muted">Password Requirements popover here</small>
             </div>
             <div class="form-group">
-                <input type="text" class="form-control" id="registerFirstName" placeholder="First Name">
+                <input type="text" class="form-control" id="registerFirstName" placeholder="First Name" value="{{ registerFirstName }}">
             </div>
             <div class="form-group">
-                <input type="text" class="form-control" id="registerLasttName" placeholder="Last Name">
+                <input type="text" class="form-control" id="registerLasttName" placeholder="Last Name" value="{{ registerLastName }}">
             </div>
             <div class="form-group">
-                <input type="text" class="form-control" id="registerTitle" placeholder="Title">
+                <input type="text" class="form-control" id="registerTitle" placeholder="Title" value="{{ registerTitle }}">
             </div>
             <div class="form-group">
-                <input type="text" class="form-control" id="registerGroup" placeholder="Group">
+                <input type="text" class="form-control" id="registerGroup" placeholder="Group" value="{{ registerGroup }}">
             </div>
             <div class="form-check">
-                <input type="checkbox" class="form-check-input" id="loginCheck">
+                <input type="checkbox" class="form-check-input" id="loginCheck" value="{{ loginCheck }}">
                 <label class="form-check-label" for="loginCheck">Log Me In</label>
             </div>
             <button type="submit" class="btn btn-outline-primary">Register</button>
