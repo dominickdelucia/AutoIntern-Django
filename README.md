@@ -15,9 +15,9 @@ Here we are cloning the repo to your file system
 
 ### Create a Git Branch And Open a Pull Request
 Note: ALL WORK should be done on the "dev" branch and should be submitted as a pull request.
-1. Switch to the dev branch using "git checkout dev". 
+1. Switch to the dev branch using "git checkout dev".
 2. Edit, add, and commit code as normal (use informational commit messages).
-3. When you are ready to push changes use "git push -u dev dev". Note: I believe you will only have to do this the first time and then you can use "git push" as usual.
+3. When you are ready to push changes use "git push -u origin dev". Note: I believe you will only have to do this the first time and then you can use "git push" as usual.
 5. Navigate to https://github.com/asn10038/AutoIntern-Django and go to "Pull Requests" and create one from the dev branch to master. Make sure to assign people to the pull request and don't accept your own PR.
 
 ### Making A Virtual Enviornment
