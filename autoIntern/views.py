@@ -13,7 +13,9 @@
 # limitations under the License.
 
 from django.http import HttpResponse
+from django.template import loader
 
 
 def index(request):
-    return HttpResponse("Hello AutoIntern! This is the index page....more to come")
+    template = loader.get_template('autoIntern/index.html')
+    return HttpResponse(template.render(None,request))

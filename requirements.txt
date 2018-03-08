@@ -2,3 +2,4 @@ Django==2.0.2
 wheel==0.30.0
 gunicorn==19.7.1
 psycopg2-binary==2.7.4
+django-bootstrap4

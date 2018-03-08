@@ -1,0 +1,87 @@
+{# Load the tag lib #}
+{% load bootstrap4 %}
+
+{# load css and js #}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+
+
+{# Display django.contrib.messages as Bootstrap alerts #}
+{% bootstrap_messages %}
+
+<!-- navbar stuff -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">AutoIntern</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+      <!--<li class="nav-item">-->
+        <!--<a class="nav-link" href="#">Cases</a>-->
+      <!--</li>-->
+      <!--<li class="nav-item dropdown">-->
+        <!--<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+          <!--Dropdown-->
+        <!--</a>-->
+        <!--<div class="dropdown-menu" aria-labelledby="navbarDropdown">-->
+          <!--<a class="dropdown-item" href="#">Action</a>-->
+          <!--<a class="dropdown-item" href="#">Another action</a>-->
+          <!--<div class="dropdown-divider"></div>-->
+          <!--<a class="dropdown-item" href="#">Something else here</a>-->
+        <!--</div>-->
+      <!--</li>-->
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#">Cases</a>
+            </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="username">
+            <input class="form-control mr-sm-2" type="password" placeholder="Password" aria-label="password">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button>
+            <button class="btn btn-outline-info my-2 my-sm-0" data-toggle="modal" type="button" data-target="#registerModal">Register</button>
+        </form>
+    </div>
+
+</nav>
+
+<!-- Register Modal Window -->
+<div class="modal" tabindex="-1" role="alertdialog" id="registerModal">
+  <div class="modal-dialog" role="alertdialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Register</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+          </div>
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1">
+          </div>
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="First Name" aria-label="FirstName" aria-describedby="basic-addon1">
+          </div>
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Last Name" aria-label="LastName" aria-describedby="basic-addon1">
+          </div>
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Title" aria-label="Title" aria-describedby="basic-addon1">
+          </div>
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Group" aria-label="Group" aria-describedby="basic-addon1">
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">Register</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
