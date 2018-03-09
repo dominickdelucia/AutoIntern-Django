@@ -20,4 +20,4 @@ class ViewsTestCase(TestCase):
     def testIndex(self):
         client = Client()
         response = client.get('/')
-        assert("Hello" in str(response.content))
+        assert("AutoIntern" in str(response.content))
