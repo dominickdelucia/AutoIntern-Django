@@ -27,7 +27,6 @@ jobs:
           name: Set Up GOOGLE_CLOUD_DEFAULT_CREDENTIALS
           command: |
             echo $DEV_SECRET | base64 -di > /tmp/dev_secret.json
-            #echo $CLIENT_SECRET | base64 -di > /tmp/prod_secret.json
 
       - run:
           name: run tests
@@ -47,10 +46,12 @@ jobs:
     working_directory: ~/AutoIntern-Django
     steps:
       - checkout
+      
       - run:
           name: Set Up GOOGLE_CLOUD_DEFAULT_CREDENTIALS
           command: |
             echo $DEV_SECRET | base64 -di > /tmp/dev_secret.json
+            
       - run:
           name: Deploy To Dev Server
           command: |
@@ -67,10 +68,12 @@ jobs:
     working_directory: ~/AutoIntern-Django
     steps:
       - checkout
+      
       - run:
           name: Set Up GOOGLE_CLOUD_DEFAULT_CREDENTIALS
           command: |
             echo $UAT_SECRET | base64 -di > /tmp/uat_secret.json
+            
       - run:
           name: Deploy To UAT Server
           command: |
@@ -79,7 +82,6 @@ jobs:
             gcloud --quiet components update app
             gcloud auth activate-service-account --key-file $GOOGLE_APPLICATION_CREDENTIALS
             gcloud config set project $UAT_ID
-            ./cloud_sql_proxy_linux -instances="$UAT_DATABASE"=tcp:5432 &
             gcloud -q app deploy uat_app.yaml --promote --version=1
 
   deployProd:
@@ -88,11 +90,12 @@ jobs:
     working_directory: ~/AutoIntern-Django
     steps:
       - checkout
+      
       - run:
           name: Set Up GOOGLE_CLOUD_DEFAULT_CREDENTIALS
           command: |
             echo $PROD_SECRET | base64 -di > /tmp/prod_secret.json
-            # This is production secret
+            
       - run:
           name: Deploy To Prod Server
           command: |
@@ -101,14 +104,22 @@ jobs:
             gcloud --quiet components update app
             gcloud auth activate-service-account --key-file $GOOGLE_APPLICATION_CREDENTIALS
             gcloud config set project $PROD_ID
-            ./cloud_sql_proxy_linux -instances="$PROD_DATABASE"=tcp:5432 &
             gcloud -q app deploy prod_app.yaml --promote --version=1
 
 workflows:
   version: 2
-  build-test-optionally-deployDev-deployUAT-approval-deployProd:
+  build-test-deploy:
     jobs:
       - build-test
+      
+      - deployDev:
+          filters:
+            branches:
+              only:
+                - dev
+          requires:
+            - build-test
+      
       - deployUAT:
           filters:
             branches:
@@ -116,18 +127,12 @@ workflows:
                 - master
           requires:
             - build-test
-      - holdDeployDev:
-          type: approval
-          requires:
-            - build-test
-      - deployDev:
-          requires:
-            - holdDeployDev
+
       - holdDeployProd:
           type: approval
           requires:
-            - build-test
             - deployUAT
+            
       - deployProd:
           requires:
             - holdDeployProd
