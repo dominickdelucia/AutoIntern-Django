@@ -14,11 +14,12 @@ Here we are cloning the repo to your file system
 3. "git clone https://github.com/asn10038/AutoIntern-Django.git"
 
 ### Create a Git Branch And Open a Pull Request
-Note: ALL WORK should be done on the "dev" branch and should be submitted as a pull request.
-1. Switch to the dev branch using "git checkout dev".
+Note: ALL WORK should be done on an individualized dev branch and should be submitted as a pull request to the "dev" branch.
+1. Switch to your dev branch using "git checkout -b <name>_dev", i.e. nick_dev.
 2. Edit, add, and commit code as normal (use informational commit messages).
-3. When you are ready to push changes use "git push -u origin dev". Note: I believe you will only have to do this the first time and then you can use "git push" as usual.
-5. Navigate to https://github.com/asn10038/AutoIntern-Django and go to "Pull Requests" and create one from the dev branch to master. Make sure to assign people to the pull request and don't accept your own PR.
+3. When you are ready to push changes use "git push -u origin <name>_dev". Note: I believe you will only have to do this the first time and then you can use "git push" as usual.
+5. Navigate to https://github.com/asn10038/AutoIntern-Django and go to "Pull Requests" and create one from your dev branch to the "dev" branch. Make sure to assign people to the pull request and don't accept your own PR.
+6. After fixing any PR merge conflicts in "dev" support a PR from "dev" to "master".
 
 ### Making A Virtual Enviornment
 Here we are making a virtual enviornment to make sure the enviornment we are coding in is standard across all programmers. All of your local testing should be done in the virtual enviornment. More info: https://www.python.org/dev/peps/pep-0405/
