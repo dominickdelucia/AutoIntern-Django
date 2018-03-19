@@ -46,12 +46,12 @@ jobs:
     working_directory: ~/AutoIntern-Django
     steps:
       - checkout
-      
+
       - run:
           name: Set Up GOOGLE_CLOUD_DEFAULT_CREDENTIALS
           command: |
             echo $DEV_SECRET | base64 -di > /tmp/dev_secret.json
-            
+
       - run:
           name: Deploy To Dev Server
           command: |
@@ -68,12 +68,12 @@ jobs:
     working_directory: ~/AutoIntern-Django
     steps:
       - checkout
-      
+
       - run:
           name: Set Up GOOGLE_CLOUD_DEFAULT_CREDENTIALS
           command: |
             echo $UAT_SECRET | base64 -di > /tmp/uat_secret.json
-            
+
       - run:
           name: Deploy To UAT Server
           command: |
@@ -90,12 +90,12 @@ jobs:
     working_directory: ~/AutoIntern-Django
     steps:
       - checkout
-      
+
       - run:
           name: Set Up GOOGLE_CLOUD_DEFAULT_CREDENTIALS
           command: |
             echo $PROD_SECRET | base64 -di > /tmp/prod_secret.json
-            
+
       - run:
           name: Deploy To Prod Server
           command: |
@@ -111,7 +111,7 @@ workflows:
   build-test-deploy:
     jobs:
       - build-test
-      
+
       - deployDev:
           filters:
             branches:
@@ -119,20 +119,24 @@ workflows:
                 - dev
           requires:
             - build-test
-      
-      - deployUAT:
+
+      #- deployUAT:
+      #    filters:
+      #      branches:
+      #        only:
+      #          - master
+      #    requires:
+      #      - build-test
+
+      - holdDeployProd:
           filters:
             branches:
               only:
                 - master
+          type: approval
           requires:
             - build-test
 
-      - holdDeployProd:
-          type: approval
-          requires:
-            - deployUAT
-            
       - deployProd:
           requires:
             - holdDeployProd
