@@ -75,16 +75,16 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 # Database
 # [START dbconfig]
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': '024lana',
-        'PORT': '5432',
-        'HOST': '127.0.0.1',
-    },
-}
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.postgresql',
+#        'NAME': 'postgres',
+#        'USER': 'postgres',
+#        'PASSWORD': '024lana',
+#        'PORT': '5432',
+#        'HOST': '127.0.0.1',
+#    },
+#}
 
 if os.getenv('GAE_INSTANCE'):
     #print("GAE_INSTANCE")
@@ -123,7 +123,6 @@ elif os.getenv('SETTINGS_MODE') == 'uat':
         },
     }
 else:
-    #print("local")
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
