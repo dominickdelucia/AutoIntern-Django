@@ -129,6 +129,10 @@ workflows:
       #      - build-test
 
       - holdDeployProd:
+          filters:
+            branches:
+              only:
+                - master
           type: approval
           requires:
             - build-test
