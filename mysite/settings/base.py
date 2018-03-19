@@ -75,41 +75,22 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 # Database
 # [START dbconfig]
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': '024lana',
+        'PORT': '5432',
+    },
+}
+
+DATABASES['default']['HOST'] = '/cloudsql/autointern-dev:us-east1:autointern-dev'
+
 if os.getenv('GAE_INSTANCE'):
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'postgres',
-            'USER': 'postgres',
-            'PASSWORD': '024lana',
-            'PORT': '5432',
-            'HOST': '/cloudsql/autointern-dev:us-east1:autointern-dev',
-        },
-    }
-elif os.getenv('SETTINGS_MODE') == 'prod':
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'postgres',
-            'USER': 'postgres',
-            'PASSWORD': 'supersecret',
-            'PORT': '5432',
-            'HOST': '127.0.0.1',
-            'INSTANCE': '104.196.145.166'
-        },
-    }
-elif os.getenv('SETTINGS_MODE') == 'uat':
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'postgres',
-            'USER': 'postgres',
-            'PASSWORD': 'winnerwinner',
-            'PORT': '5432',
-            'HOST': '127.0.0.1',
-            'INSTANCE': '35.185.102.80'
-        },
-    }
+    pass
+else:
+    DATABASES['default']['HOST'] = '127.0.0.1'
 # [END dbconfig]
 
 # Internationalization
