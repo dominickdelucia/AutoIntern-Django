@@ -21,3 +21,4 @@ class ViewsTestCase(TestCase):
         client = Client()
         response = client.get('/')
         assert("AutoIntern" in str(response.content))
+

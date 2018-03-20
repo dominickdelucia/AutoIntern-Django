@@ -74,10 +74,9 @@ def upload(request):
     '''Handles Local file uploads'''
     if request.method == 'POST':
         userForm = UserForm()
-        print("The userEmail in session is: " + str(request.session.get('userEmail')))
         template = loader.get_template('autoIntern/homePage.html')
 
-        # CREATE THE DOCUMENT MODEL HERE
+        # DOM CREATE THE DOCUMENT MODEL HERE
         for line in request.FILES['uploadFile']:
             print(str(line))
         #####################################
