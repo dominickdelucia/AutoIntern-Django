@@ -34,7 +34,6 @@ def register(request):
             user = User()
             user = User(**userForm.cleaned_data)
             user.save()
-            currentUser = user
             request.session['userEmail'] = user.email
         return HttpResponse(loader.get_template('autoIntern/homePage.html').render({'userForm':userForm, 'user':user}, request))
 
