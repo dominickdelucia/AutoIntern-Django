@@ -35,4 +35,6 @@ class User(models.Model):
     group = models.CharField(max_length=255)
     title = models.CharField(max_length=255)
 
+    def getUserFromEmail(self, email):
+        return User.objects.get(email=email)
 # Create your models here.
