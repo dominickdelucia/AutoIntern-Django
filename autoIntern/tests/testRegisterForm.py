@@ -9,7 +9,7 @@ class RegisterFormTest(TestCase):
 
     def test_valid_data(self):
         form = UserForm({
-            'email' : 'test',
+            'email' : 'test@test.com',
             'displayName': 'test',
             'firstName': 'test',
             'lastName': 'test',
@@ -37,7 +37,7 @@ class RegisterFormTest(TestCase):
     def test_register_user_form_view(self):
         user_count = User.objects.count()
         response = self.client.post("/register/", {
-            'email' : 'test',
+            'email' : 'test@test.com',
             'displayName': 'test',
             'firstName': 'test',
             'lastName': 'test',
