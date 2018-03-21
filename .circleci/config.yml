@@ -62,28 +62,6 @@ jobs:
             gcloud config set project $DEV_ID
             gcloud -q app deploy dev_app.yaml --promote --version=1
 
-  deployUAT:
-    machine:
-      enabled: true
-    working_directory: ~/AutoIntern-Django
-    steps:
-      - checkout
-
-      - run:
-          name: Set Up GOOGLE_CLOUD_DEFAULT_CREDENTIALS
-          command: |
-            echo $UAT_SECRET | base64 -di > /tmp/uat_secret.json
-
-      - run:
-          name: Deploy To UAT Server
-          command: |
-            export GOOGLE_APPLICATION_CREDENTIALS="/tmp/uat_secret.json"
-            export ENVIRONMENT="UAT"
-            gcloud --quiet components update app
-            gcloud auth activate-service-account --key-file $GOOGLE_APPLICATION_CREDENTIALS
-            gcloud config set project $UAT_ID
-            gcloud -q app deploy uat_app.yaml --promote --version=1
-
   deployProd:
     machine:
       enabled: true
@@ -119,14 +97,6 @@ workflows:
                 - dev
           requires:
             - build-test
-
-      #- deployUAT:
-      #    filters:
-      #      branches:
-      #        only:
-      #          - master
-      #    requires:
-      #      - build-test
 
       - holdDeployProd:
           filters:
