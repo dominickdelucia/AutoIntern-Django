@@ -20,7 +20,7 @@ class Document(models.Model):
     doc_date = models.CharField(max_length=255)
     upload_id = models.ForeignKey(User,on_delete=models.CASCADE)
     upload_datetime = models.DateTimeField(auto_now_add = True)
-    file = models.FileField(upload_to= 'document_folder')
+    #file = models.FileField(upload_to= 'document_folder')
     # pointer = models.FilePathField(......)
     #
     # def GetDocByID(id):
