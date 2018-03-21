@@ -21,7 +21,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'autoIntern',
     'bootstrap4',
-    'widget_tweaks'
+    'widget_tweaks',
+    'storages'
 )
 
 MIDDLEWARE = (
@@ -125,3 +126,14 @@ USE_TZ = True
 STATIC_URL = 'https://storage.googleapis.com/autointern-dev/static/'
 STATIC_ROOT = 'static/'
 # [END staticurl]
+
+from django.conf import settings
+from django.core.files.storage import default_storage
+
+# Google Cloud Static Settings
+# [START Gcloud Static]
+settings.configure(DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage')
+GS_BUCKET_NAME = 'autointern-dev/static/document_folder'
+GS_PROJECT_ID = 'autointern-dev'
+# [END Gcloud Static]
+
